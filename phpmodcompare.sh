@@ -2,8 +2,8 @@
 # written by Max Chudnovsky
 
 # init
-VER1="$1"
-VER2="$2"
+VER1="${1//[!0-9.]/}"
+VER2="${2//[!0-9.]/}"
 
 # function checks if version of php is installed
 chkphp(){
