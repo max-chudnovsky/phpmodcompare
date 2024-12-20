@@ -14,16 +14,20 @@ chkphp(){
   }
 }
 
-[ $# != 2 ] && {
+if [ $# != 2 ] && [ $# != 0 ]; then
         # lets make sure we got correct number of parameters
         echo "$0: Error: wrong number of parameters."
         echo "  Usage Example: $0 8.1 8.4"
         exit 1
-} || {
+elif [ $# == 0 ]; then
+	echo "Detected those PHP versions:"
+	dpkg -l | grep php  | grep ^ii | awk '/metapackage/{print $2}'
+	exit 0
+else
         # lets verify those php versions are valid and installed
         chkphp $VER1
         chkphp $VER2
-}
+fi
 
 # main
 echo "Comparing loaded modules for PHP${VER1} and PHP${VER2}"
