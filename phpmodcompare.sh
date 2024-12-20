@@ -1,4 +1,5 @@
 #!/bin/bash
+# Script compares installed mods of 2 versions of php installed on the same servers and reports differences
 # written by Max Chudnovsky
 
 # init
