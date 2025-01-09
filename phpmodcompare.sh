@@ -1,10 +1,9 @@
 #!/bin/bash
-# Script compares installed mods of 2 versions of php installed on the same servers and reports differences
 # written by Max Chudnovsky
 
 # init
-VER1="${1//[!0-9.]/}"
-VER2="${2//[!0-9.]/}"
+VER1="$1"
+VER2="$2"
 
 # function checks if version of php is installed
 chkphp(){
@@ -14,20 +13,17 @@ chkphp(){
   }
 }
 
-if [ $# != 2 ] && [ $# != 0 ]; then
+[ $# != 2 ] && {
         # lets make sure we got correct number of parameters
         echo "$0: Error: wrong number of parameters."
         echo "  Usage Example: $0 8.1 8.4"
+        echo -e "\n  detected versions: $(dpkg -l php*-common | awk '/^ii/{print $2}' | grep -v php-common | sed 's/-common//g' | sed 's/php//g' | xargs)"
         exit 1
-elif [ $# == 0 ]; then
-	echo "Detected those PHP versions:"
-	dpkg -l | grep php  | grep ^ii | awk '/metapackage/{print $2}'
-	exit 0
-else
+} || {
         # lets verify those php versions are valid and installed
         chkphp $VER1
         chkphp $VER2
-fi
+}
 
 # main
 echo "Comparing loaded modules for PHP${VER1} and PHP${VER2}"
