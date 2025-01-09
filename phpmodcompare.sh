@@ -17,7 +17,7 @@ chkphp(){
         # lets make sure we got correct number of parameters
         echo "$0: Error: wrong number of parameters."
         echo "  Usage Example: $0 8.1 8.4"
-        echo -e "\n  detected versions: $(dpkg -l php*-common | awk '/^ii/{print $2}' | grep -v php-common | sed 's/-common//g' | sed 's/php//g' | xargs)"
+        echo -e "\n  detected versions: $(dpkg -l php*-common | awk '/^ii/||/!php-common/{print $2}'| sed -e 's/-common//' -e 's/php//' | xargs)"
         exit 1
 } || {
         # lets verify those php versions are valid and installed
